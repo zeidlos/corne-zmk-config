@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+/* https://github.com/urob/zmk-config/ */
 #include <behaviors.dtsi>
 #include <behaviors/num_word.dtsi>
 #include <dt-bindings/zmk/keys.h>
