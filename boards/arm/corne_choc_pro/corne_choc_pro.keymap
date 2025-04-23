@@ -22,9 +22,9 @@
             //                    | LY1 | BSPC | GUI |                   | ENT | SPACE  | LY2 |
             bindings = <
                 &kp TAB &kp Q &kp W &kp E &kp R &kp T &kp LCTRL               &kp RCTRL &kp Y &kp U  &kp I &kp O   &kp P    &kp BSLH
-                &kp ESC &mt LCTRL A &mt LALT S &mt LGUI D &mt LSHFT F &kp G    &kp LALT  &kp RALT  &mt SHFT H &mt LGUI J  &mt RALT K &mt RCTRL L &kp SEMI &kp SQT
+                &kp ESC &mt LCTRL A &mt LALT S &mt LGUI D &mt LSHFT F &kp G &kp LALT  &kp RALT  &mt RSHFT H &mt LGUI J  &mt RALT K &mt RCTRL L &kp SEMI &kp SQT
                 &kp LCTRL &kp Z &kp X &kp C &kp V &kp B                     &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp ESC
-                                      &mo 1 &mt LSHFT BSPC &mt LGUI TAB              &kp RET &mt RSHIFT SPACE &mo 2
+                            &mo 1 &mt LSHFT BSPC &mt LGUI TAB              &kp RET &mt RSHIFT SPACE &mo 2
             >;
         };
         lower_layer {
