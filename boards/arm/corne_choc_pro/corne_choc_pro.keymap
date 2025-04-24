@@ -71,7 +71,7 @@
                 /* &kp ESC &mt LCTRL A &mt LALT S &mt LGUI D &mt LSHFT F &kp G &kp LALT  &kp RALT  &kp H &mt RSHFT J  &mt RGUI K &mt RALT L &mt RCTRL SEMI &kp SQT */
                 &kp ESC &kp A &kp S &kp D &kp F &kp G &kp LALT  &kp RALT  &kp H &kp J  &kp K &kp L &kp SEMI &kp SQT
                 &kp LCTRL &kp Z &kp X &kp C &kp V &kp B                     &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp ESC
-                            &mo 1 &mt LSHFT BSPC &mt LGUI TAB              &kp RET &mt RALT SPACE &mo 2
+                            &mo 1 &mt LSHFT BSPC &mt LGUI TAB              &kp RET &mt LALT SPACE &mo 2
             >;
         };
         lower_layer {
