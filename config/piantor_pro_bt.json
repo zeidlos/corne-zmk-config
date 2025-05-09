@@ -2,8 +2,8 @@
     "id": "piantor_pro_bt",
     "name": "Piantor Pro BT",
     "layouts": {
-        "default_transform": {
-            "name": "default_transform",
+        "default_layout": {
+            "name": "default_layout",
             "layout": [
                 {"label": "Tab", "row": 0, "col": 0, "x": 0.0, "y": 1.0 },
                 {"label": "Q", "row": 0, "col": 1, "x": 1.0, "y": 1.0 },
