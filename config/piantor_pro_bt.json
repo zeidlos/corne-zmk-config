@@ -1,7 +1,7 @@
 {
-  "layouts": {
-        "id": "piantor_pro_bt",
-        "name": "Piantor Pro BT",
+    "id": "piantor_pro_bt",
+    "name": "Piantor Pro BT",
+    "layouts": {
         "default_transform": {
             "name": "default_transform",
             "layout": [
@@ -53,5 +53,6 @@
                 {"label": "RAlt", "row": 0, "col": 41, "x": 10.75, "y": 3.5, "r": 5.0, "rx": 10.75, "ry": 3.5 }
             ]
         }
-    }
+    },
+    "sensors": [],
 }
