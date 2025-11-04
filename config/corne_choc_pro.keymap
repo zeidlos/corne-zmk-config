@@ -139,13 +139,13 @@
         };
     };
 
-    combos {
-        compatible = "zmk,combos";
-        combo_lower_raise_to_layer_3 {
-            timeout-ms = <50>;
-            bindings = <&mo function_layer>;
-            key-positions = <40 45>; // Replace with actual positions
-            layers = <0>; // Only active on default layer
-        };
-    };
+    /* combos { */
+    /*     compatible = "zmk,combos"; */
+    /*     combo_lower_raise_to_layer_3 { */
+    /*         timeout-ms = <50>; */
+    /*         bindings = <&mo function_layer>; */
+    /*         key-positions = <40 45>; // Replace with actual positions */
+    /*         layers = <0>; // Only active on default layer */
+    /*     }; */
+    /* }; */
 };
