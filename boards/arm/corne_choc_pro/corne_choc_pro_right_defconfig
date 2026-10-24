@@ -47,7 +47,7 @@ CONFIG_ZMK_BLE_EXPERIMENTAL_CONN=y
 CONFIG_ZMK_STUDIO=y
 
 # Status LEDs (src/status_leds.c): Y = active profile, H = connection state.
-# Chain indices found with the calibration build (2026-10-24).
+# Chain indices (2026-10-24): the chain runs up the inner column, N = 1, H = 2, Y = 3.
 CONFIG_ZMK_STATUS_LEDS=y
-CONFIG_ZMK_STATUS_LEDS_PROFILE_INDEX=2
-CONFIG_ZMK_STATUS_LEDS_CONN_INDEX=1
+CONFIG_ZMK_STATUS_LEDS_PROFILE_INDEX=3
+CONFIG_ZMK_STATUS_LEDS_CONN_INDEX=2
