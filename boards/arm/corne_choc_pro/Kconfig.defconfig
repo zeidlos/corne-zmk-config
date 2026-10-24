@@ -1,12 +1,14 @@
 # Copyright (c) 2020 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-if BOARD_CORNE_CHOC_PRO_LEFT
+# The right half is central (connects to the host) so it can drive the
+# status LEDs under Y/H (src/status_leds.c); the left half is the peripheral.
+if BOARD_CORNE_CHOC_PRO_RIGHT
 
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
-endif # BOARD_CORNE_CHOC_PRO_LEFT
+endif # BOARD_CORNE_CHOC_PRO_RIGHT
 
 if BOARD_CORNE_CHOC_PRO_LEFT || BOARD_CORNE_CHOC_PRO_RIGHT
 
