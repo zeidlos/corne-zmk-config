@@ -1,0 +1,5 @@
+if(CONFIG_ZMK_STATUS_LEDS)
+  zephyr_library()
+  zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
+  zephyr_library_sources(src/status_leds.c)
+endif()

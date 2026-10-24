@@ -1,0 +1,25 @@
+config ZMK_STATUS_LEDS
+    bool "Per-key BLE profile/connection status LEDs"
+    depends on ZMK_BLE && (!ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL)
+    depends on !ZMK_RGB_UNDERGLOW
+    select LED_STRIP
+
+if ZMK_STATUS_LEDS
+
+config ZMK_STATUS_LEDS_PROFILE_INDEX
+    int "Chain index of the LED showing the active profile"
+    default 0
+
+config ZMK_STATUS_LEDS_CONN_INDEX
+    int "Chain index of the LED showing the connection state"
+    default 1
+
+config ZMK_STATUS_LEDS_BRIGHTNESS
+    int "Brightness of the status LEDs (0-255)"
+    range 1 255
+    default 40
+
+config ZMK_STATUS_LEDS_CALIBRATE
+    bool "Calibration mode: every LED blinks its own chain index"
+
+endif
