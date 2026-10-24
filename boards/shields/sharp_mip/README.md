@@ -7,12 +7,16 @@ This shield requires that an `&nice_view_spi` labeled SPI bus is provided with _
 
 ## Images
 
-The left (central) screen shows `art_zeidler` below the battery / BLE profile /
-connection row, the right (peripheral) one shows `art_18c3`. Both are generated
-from the PNGs in `art/`:
+The central screen shows `art_zeidler` below the battery / BLE profile /
+connection row, the peripheral one shows `art_hack_the_planet` (`art_18c3` is
+kept as an alternative). On the 6-column Corne the right half is central, so
+the left screen shows "hack the planet". All are generated from the PNGs in
+`art/`:
 
 - Draw upright, as seen on the keyboard: 68 px wide, black ink on white.
-  Left: up to 68×116 (between status row and layer name), right: up to 68×140.
+  Central: up to 68×116 (between status row and layer name). Peripheral: 68×140,
+  but the top ~50 rows sit under the battery/connection row, so keep ink in
+  rows 50–139.
 - Run `python3 art/gen_art.py` (needs Pillow) to regenerate `widgets/art.c`,
   including the `SHARP_MIP_ROTATE_180` and `SHARP_MIP_WIDGET_INVERTED` variants.
 - A new file `foo.png` becomes `art_foo`; reference it with
