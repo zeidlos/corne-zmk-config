@@ -2,8 +2,10 @@
  * Per-key BLE status LEDs.
  *
  * Drives two LEDs of the underglow strip directly (ZMK's own underglow must be
- * off): one shows the active BLE profile as a color, the other green/red for
- * connected/not connected. All LEDs go dark when the keyboard goes idle.
+ * off): one shows the active BLE profile as a color, the other the profile's
+ * state: green = connected, red = paired but not connected, blue = no pairing
+ * (open, advertising for a new host). All LEDs go dark when the keyboard goes
+ * idle.
  *
  * With CONFIG_ZMK_STATUS_LEDS_CALIBRATE every LED shows its own chain index
  * instead: color = index / 5 (red, green, blue, yellow, white), number of
@@ -78,7 +80,8 @@ static void cal_tick(struct k_work *work) {
 
 #else /* normal mode */
 
-/* Profiles 1-5. No red or green, those belong to the connection LED. */
+/* Profiles 1-5. No red or green, those belong to the connection LED (blue is
+ * shared, but on a different key). */
 static const struct led_rgb profile_colors[] = {
     RGB(BRT, BRT, BRT),     /* 1 white */
     RGB(0, 0, BRT),         /* 2 blue */
@@ -97,8 +100,15 @@ static void refresh(struct k_work *work) {
             pixels[CONFIG_ZMK_STATUS_LEDS_PROFILE_INDEX] =
                 profile_colors[profile % ARRAY_SIZE(profile_colors)];
         }
-        pixels[CONFIG_ZMK_STATUS_LEDS_CONN_INDEX] =
-            zmk_ble_active_profile_is_connected() ? RGB(0, BRT, 0) : RGB(BRT, 0, 0);
+        struct led_rgb conn;
+        if (zmk_ble_active_profile_is_connected()) {
+            conn = RGB(0, BRT, 0);
+        } else if (zmk_ble_active_profile_is_open()) {
+            conn = RGB(0, 0, BRT);
+        } else {
+            conn = RGB(BRT, 0, 0);
+        }
+        pixels[CONFIG_ZMK_STATUS_LEDS_CONN_INDEX] = conn;
     }
     flush();
 }
