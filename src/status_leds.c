@@ -5,7 +5,9 @@
  * off): one shows the active BLE profile as a color, the other the profile's
  * state: green = connected, red = paired but not connected, blue = no pairing
  * (open, advertising for a new host). All LEDs go dark when the keyboard goes
- * idle.
+ * idle, and the LED power rail (EXT_POWER) is cut while they're dark: WS2812s
+ * draw ~1 mA each even when black, so a powered 23-LED chain empties the battery
+ * in a day or two.
  *
  * With CONFIG_ZMK_STATUS_LEDS_CALIBRATE every LED shows its own chain index
  * instead: color = index / 5 (red, green, blue, yellow, white), number of
@@ -51,6 +53,43 @@ static void flush(void) {
 
 static void clear(void) { memset(pixels, 0, sizeof(pixels)); }
 
+#if IS_ENABLED(CONFIG_ZMK_EXT_POWER)
+/* Switch the LED rail on before the strip is written (the LEDs need a moment
+ * to come up), off when nothing is lit. */
+static void set_power(bool on) {
+    const struct device *ext_power = device_get_binding("EXT_POWER");
+    if (!ext_power || ext_power_get(ext_power) == on) {
+        return;
+    }
+    if (on) {
+        ext_power_enable(ext_power);
+        k_msleep(10);
+    } else {
+        ext_power_disable(ext_power);
+    }
+}
+#else
+static void set_power(bool on) {}
+#endif
+
+static bool any_lit(void) {
+    for (int i = 0; i < NUM_PIXELS; i++) {
+        if (pixels[i].r || pixels[i].g || pixels[i].b) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/* Write the strip if anything is lit, otherwise just cut the power. */
+static void show(void) {
+    bool lit = any_lit();
+    set_power(lit);
+    if (lit) {
+        flush();
+    }
+}
+
 #if IS_ENABLED(CONFIG_ZMK_STATUS_LEDS_CALIBRATE)
 
 /* 300 ms per step; up to 5 blinks (10 steps) then a 5-step pause. */
@@ -73,6 +112,7 @@ static void cal_tick(struct k_work *work) {
             pixels[i] = cal_colors[(i / 5) % ARRAY_SIZE(cal_colors)];
         }
     }
+    set_power(true);
     flush();
     cal_step = (cal_step + 1) % CAL_STEPS;
     k_work_schedule(&cal_work, K_MSEC(CAL_STEP_MS));
@@ -110,17 +150,17 @@ static void refresh(struct k_work *work) {
         }
         pixels[CONFIG_ZMK_STATUS_LEDS_CONN_INDEX] = conn;
     }
-    flush();
+    show();
 }
 
-static K_WORK_DEFINE(refresh_work, refresh);
+static K_WORK_DELAYABLE_DEFINE(refresh_work, refresh);
 
 static int status_leds_listener(const zmk_event_t *eh) {
     const struct zmk_activity_state_changed *ev = as_zmk_activity_state_changed(eh);
     if (ev) {
         active = ev->state == ZMK_ACTIVITY_ACTIVE;
     }
-    k_work_submit(&refresh_work);
+    k_work_reschedule(&refresh_work, K_NO_WAIT);
     return ZMK_EV_EVENT_BUBBLE;
 }
 
@@ -136,18 +176,12 @@ static int status_leds_init(void) {
         return -ENODEV;
     }
 
-#if IS_ENABLED(CONFIG_ZMK_EXT_POWER)
-    /* The LEDs sit on the switchable rail; underglow used to turn it on. */
-    const struct device *ext_power = device_get_binding("EXT_POWER");
-    if (ext_power) {
-        ext_power_enable(ext_power);
-    }
-#endif
-
+    /* Delayed past main()'s settings_load(), which restores a saved EXT_POWER
+     * state and would otherwise override the first set_power(). */
 #if IS_ENABLED(CONFIG_ZMK_STATUS_LEDS_CALIBRATE)
-    k_work_schedule(&cal_work, K_MSEC(500));
+    k_work_schedule(&cal_work, K_MSEC(1000));
 #else
-    k_work_submit(&refresh_work);
+    k_work_schedule(&refresh_work, K_MSEC(1000));
 #endif
     return 0;
 }

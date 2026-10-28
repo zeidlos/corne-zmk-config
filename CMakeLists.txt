@@ -1,5 +1,6 @@
-if(CONFIG_ZMK_STATUS_LEDS)
+if(CONFIG_ZMK_STATUS_LEDS OR CONFIG_ZMK_LED_POWER_OFF)
   zephyr_library()
   zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
-  zephyr_library_sources(src/status_leds.c)
+  zephyr_library_sources_ifdef(CONFIG_ZMK_STATUS_LEDS src/status_leds.c)
+  zephyr_library_sources_ifdef(CONFIG_ZMK_LED_POWER_OFF src/led_power_off.c)
 endif()

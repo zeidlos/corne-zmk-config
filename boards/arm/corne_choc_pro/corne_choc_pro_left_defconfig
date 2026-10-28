@@ -45,3 +45,6 @@ CONFIG_BT_GATT_ENFORCE_SUBSCRIPTION=n
 
 # Improved connection stability
 CONFIG_ZMK_BLE_EXPERIMENTAL_CONN=y
+
+# LEDs unused on this half: keep their power rail off (src/led_power_off.c).
+CONFIG_ZMK_LED_POWER_OFF=y

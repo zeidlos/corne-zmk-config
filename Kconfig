@@ -23,3 +23,7 @@ config ZMK_STATUS_LEDS_CALIBRATE
     bool "Calibration mode: every LED blinks its own chain index"
 
 endif
+
+config ZMK_LED_POWER_OFF
+    bool "Keep the LED power rail (EXT_POWER) off"
+    depends on ZMK_EXT_POWER && !ZMK_RGB_UNDERGLOW && !ZMK_STATUS_LEDS
